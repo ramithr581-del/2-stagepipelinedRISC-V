@@ -11,4 +11,3 @@ Spec: [Pipelined_RISCV/](Pipelined_RISCV/)
 3. Submit your repo link (one per group) through the course form.
 
 CI checks each push on its next run, which can take a few hours. Its synthesizer (Yosys 0.33) cannot parse assignment patterns like `'{default: 0}`; use a `for` loop instead.
-
