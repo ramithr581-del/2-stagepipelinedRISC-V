@@ -14,4 +14,4 @@ stage: pipelined_riscv
 modules:
   pipelined_riscv:
     source_files:
-      - Pipelined_RISCV/rtl.sv
+      - src/pipelined_riscv.sv
