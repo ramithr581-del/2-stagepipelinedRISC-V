@@ -157,7 +157,12 @@ module pipelined_riscv (
                 7'b0110011: begin
                     s2_reg_write = 1'b1;
                     case (s2_funct3)
-                        3'b000: s2_alu_result = (s2_funct7[5]) ? (s2_rs1_value - s2_rs2_value) : (s2_rs1_value + s2_rs2_value);
+                       3'b000: begin
+    if (s2_funct7 == 7'b0100000)
+        s2_alu_result = s2_rs1_value - s2_rs2_value;
+    else
+        s2_alu_result = s2_rs1_value + s2_rs2_value;
+end
                         3'b001: s2_alu_result = s2_rs1_value << s2_rs2_value[4:0];
                         3'b010: s2_alu_result = ($signed(s2_rs1_value) < $signed(s2_rs2_value)) ? 32'd1 : 32'd0;
                         3'b011: s2_alu_result = (s2_rs1_value < s2_rs2_value) ? 32'd1 : 32'd0;
@@ -180,7 +185,12 @@ module pipelined_riscv (
                         3'b110: s2_alu_result = s2_rs1_value | s2_imm;
                         3'b111: s2_alu_result = s2_rs1_value & s2_imm;
                         3'b001: s2_alu_result = s2_rs1_value << s2_imm[4:0];
-                        3'b101: s2_alu_result = (s2_funct7[5]) ? ($signed(s2_rs1_value) >>> s2_imm[4:0]) : (s2_rs1_value >> s2_imm[4:0]);
+                        3'b101: begin
+    if (s2_funct7 == 7'b0100000)
+        s2_alu_result = $signed(s2_rs1_value) >>> s2_rs2_value[4:0];
+    else
+        s2_alu_result = s2_rs1_value >> s2_rs2_value[4:0];
+end
                         default: s2_alu_result = 32'b0;
                     endcase
                 end
